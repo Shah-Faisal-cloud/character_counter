@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme {
+    --color-white: #f2f2f7;
+    --color-white-dark: #e6e6ec;
+    --color-black: #12131a;
+    --color-gray: #757575;
+    --color-voilet: #21222c;
+    --color-voilet-light: #2a2b37;
+    --color-purple: #D3A0FA;
+    --color-yellow: #FF9F00;
+    --color-orange: #FE8159;
+}
+
+body {
+    background-image: url("/bg-light-theme.png");
+    font-family: 'DM Sans';
+}
+
+html[data-theme="dark"] {
+    body {
+        background-image: url("/bg-dark-theme.png");
+    }
+    input[type="checkbox"] {
+        background-color: var(--color-black);
+    }
+    input[type="checkbox"]:checked {
+        background-color: var(--color-purple);
+    }
+}
+
+#app {
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+@media screen and (max-width: 1024px) {
+    #app {
+        padding: 0 clamp(1rem, 3vw, 2rem);
+    }
+}
+
+.metric-label {
+    text-transform: capitalize;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-white-dark);
+  border-radius: 5px;
+  display: inline-grid;
+  place-content: center;
+  cursor: pointer;
+  outline: none;
+  background-color: var(--color-white);
+  transition: all 0.1s ease;
+}
+
+input[type="checkbox"]:checked::before {
+  content: "";
+  width: 12px;
+  height: 6px;
+  border-left: 2px solid var(--color-voilet-light);
+  border-bottom: 2px solid var(--color-voilet-light);
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--color-purple);
+  border-color: var(--color-purple);
+}
+
+@layer utilities {
+  @keyframes colorShift {
+    0% { border-color: #3b82f6; box-shadow: 0 0 10px #3b82f6; }    /* Blue */
+    33% { border-color: #8b5cf6; box-shadow: 0 0 10px #8b5cf6; }   /* Purple */
+    66% { border-color: #ec4899; box-shadow: 0 0 10px #ec4899; }   /* Pink */
+    100% { border-color: #3b82f6; box-shadow: 0 0 10px #3b82f6; }  /* Back to Blue */
+  }
+
+  @keyframes errorGlow {
+      0% { border-color: #ef4444; box-shadow: 0 0 4px #ef4444; }     /* Soft Red */
+      50% { border-color: #dc2626; box-shadow: 0 0 15px #dc2626; }   /* Intense Red Glow */
+      100% { border-color: #ef4444; box-shadow: 0 0 4px #ef4444; }   /* Back to Soft Red */
+    }
+
+  /* Create a custom utility class that runs the animation ONLY on focus */
+  .focus-rainbow:focus {
+    animation: colorShift 4s linear infinite;
+  }
+
+  .focus-error:focus {
+      animation: errorGlow 2s ease-in-out infinite;
+    }
+}
+
+.tooltip {
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0 75%);
+}
