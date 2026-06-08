@@ -123,7 +123,7 @@ export function CounterUI(): HTMLElement {
   });
 
   checkbox.addEventListener('change', () => {
-    const { totalChars, totalWords } = updateMetricsUI();
+    const { totalChars } = updateMetricsUI();
     showLimitOverflow(totalChars);
     
   });
