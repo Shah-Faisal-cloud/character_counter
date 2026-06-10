@@ -16,13 +16,13 @@
 }
 
 body {
-    background-image: url("bg-light-theme.png");
+    background-image: url("/bg-light-theme.png");
     font-family: 'DM Sans';
 }
 
 html[data-theme="dark"] {
     body {
-        background-image: url("bg-dark-theme.png");
+        background-image: url("/bg-dark-theme.png");
     }
     input[type="checkbox"] {
         background-color: var(--color-black);
