@@ -10,8 +10,8 @@ export function Header(): HTMLElement {
   header.className = "flex items-center py-8 justify-between";
   header.innerHTML = /* html */ `
     <a href="#">
-        <img src="/logo-light-theme.svg" class="block dark:hidden max-sm:h-8" alt="brand logo">
-        <img src="/logo-dark-theme.svg" class="hidden dark:block max-sm:h-8" alt="brand logo">
+        <img src="logo-light-theme.svg" class="block dark:hidden max-sm:h-8" alt="brand logo">
+        <img src="logo-dark-theme.svg" class="hidden dark:block max-sm:h-8" alt="brand logo">
     </a>
     <div class="relative">
         <button class="p-2.5 bg-white dark:bg-voilet text-black dark:text-white hover:bg-white-dark dark:hover:bg-voilet-light cursor-pointer rounded-md theme-btn">

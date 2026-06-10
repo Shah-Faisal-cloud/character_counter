@@ -1,4 +1,4 @@
-import { calcReadTime, counter } from "../core/counter";
+import { calcReadTime, counter } from "../core/counter.ts";
 
 const cards = [
   {
@@ -49,7 +49,7 @@ export function CounterUI(): HTMLElement {
         <dl class="flex gap-x-4 w-full max-md:flex-col max-md:gap-y-6">
             ${cards.map((card) => {
               return /* html */ `
-                <div class="flex-1 p-5 rounded-xl bg-no-repeat bg-right bg-contain" style="background-color: ${card.color}; background-image: url(/pattern-${card.label}.svg)">
+                <div class="flex-1 p-5 rounded-xl bg-no-repeat bg-right bg-contain" style="background-color: ${card.color}; background-image: url(pattern-${card.label}.svg)">
                     <dt class="text-6xl font-bold" data-metric="${card.label}">0</dt>
                     <dd class="text-xl font-medium metric-label">${card.label} count</dd>
                 </div>
@@ -71,7 +71,8 @@ export function CounterUI(): HTMLElement {
   const readTimeDisplay = counterSection.querySelector('#read-time') as HTMLElement;
 
 
-  function updateMetricsUI(): {totalChars: number, totalWords: number} {
+  function updateMetricsUI(): { totalChars: number, totalWords: number } {
+    console.log('updateMetricUI() got fired')
     const text: string = textarea.value;
     const areSpacesExcluded: boolean = checkbox.checked;
     const { characterCount, wordCount, sentenceCount } = counter(text, areSpacesExcluded);
@@ -92,10 +93,10 @@ export function CounterUI(): HTMLElement {
   }
 
   function showLimitOverflow(totalChars: number): void {
+    console.log('showLimitOverflow() got fired')
     const isChecked = charLimitChecbox.checked;
-    if (!isChecked) return;
     const charLimit = charLimitInput.value;
-    if (totalChars > Number(charLimit)) {
+    if (isChecked && (charLimit !== "" && totalChars > Number(charLimit))) {
       errorMsg.classList.remove('hidden');
       charLimitDisplay!.textContent = charLimit;
       textarea.classList.remove('focus-rainbow');
@@ -119,13 +120,29 @@ export function CounterUI(): HTMLElement {
   textarea.addEventListener('input', () => {
     const { totalChars, totalWords} = updateMetricsUI();
     updateReadTimeUI(totalWords);
-    showLimitOverflow(totalChars);
+    const isChecked = charLimitChecbox.checked;
+    if (isChecked) {
+      showLimitOverflow(totalChars);
+    }
   });
 
   checkbox.addEventListener('change', () => {
+    const { totalChars, totalWords} = updateMetricsUI();
+    updateReadTimeUI(totalWords);
+    const isChecked = charLimitChecbox.checked;
+    if (isChecked) {
+      showLimitOverflow(totalChars);
+    }
+  })
+
+  charLimitChecbox.addEventListener('change', () => {
     const { totalChars } = updateMetricsUI();
     showLimitOverflow(totalChars);
-    
+  });
+
+  charLimitInput.addEventListener('input', () => {
+    const { totalChars } = updateMetricsUI();
+    showLimitOverflow(totalChars);
   });
   
   charLimitChecbox.addEventListener('change', toggleInput);
